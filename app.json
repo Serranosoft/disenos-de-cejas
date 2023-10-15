@@ -1,16 +1,17 @@
 {
   "expo": {
-    "name": "cejas",
-    "slug": "cejas",
+    "name": "Diseña tu mirada paso a paso",
+    "slug": "como-hacer-cejas",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo-cejas.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/splash-cejas.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FFECF4"
     },
+    "scheme": "como-hacer-cejas",
     "assetBundlePatterns": [
       "**/*"
     ],
@@ -19,12 +20,18 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "foregroundImage": "./assets/logo-cejas.png",
+        "backgroundColor": "#FFECF4"
+      },
+      "package": "com.paulaymanu113.comohacercejas"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "be318d56-3aa9-4961-aadf-bfcffa31c32b"
+      }
     }
   }
 }
