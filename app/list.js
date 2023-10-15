@@ -4,6 +4,8 @@ import { ui } from "../src/utils/styles";
 import LottieView from 'lottie-react-native';
 import { useEffect, useState } from "react";
 import { fetchCategories } from "../src/utils/supabase";
+import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
+import { bannerId } from "../src/utils/constants";
 
 export default function List() {
 
@@ -20,6 +22,7 @@ export default function List() {
         <View style={styles.container}>
             <Stack.Screen options={{ headerShown: false }} />
             <Text style={ui.h2}>Comienza a dar forma tus propias cejas</Text>
+            <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
             {
                 categories.length > 0 ?
                     <View style={styles.list}>

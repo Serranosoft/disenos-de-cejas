@@ -1,7 +1,7 @@
 import { Dimensions, StyleSheet, Text, View } from "react-native";
 import { ui } from "../src/utils/styles";
 import { Stack, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { createRef, useEffect, useState } from "react";
 import { supabase } from "../src/supabaseClient";
 import LottieView from 'lottie-react-native';
 import { useAnimatedStyle, withDelay, Easing, withTiming, useSharedValue } from "react-native-reanimated";
@@ -9,6 +9,9 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated from 'react-native-reanimated';
 import { Image } from 'expo-image';
 import Progress from "../src/components/progress";
+import AdsHandler from "../src/components/AdsHandler";
+import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
+import { bannerId } from "../src/utils/constants";
 
 export default function Category() {
 
@@ -20,6 +23,9 @@ export default function Category() {
 
     const [current, setCurrent] = useState(0);
     const position = useSharedValue(0);
+
+    const [triggerAd, setTriggerAd] = useState(0);
+    const adsHandlerRef = createRef();
 
     useEffect(() => {
         if (id) {
@@ -57,6 +63,7 @@ export default function Category() {
                         setCurrent(current + 1);
                         position.value = Dimensions.get("window").width;
                         position.value = withDelay(25, withTiming(0, { duration: 300, easing: Easing.ease }))
+                        setTriggerAd((triggerAd) => triggerAd + 1);
                     }, 250)
                 } else {
                     // Cargar una vista con el final   
@@ -72,6 +79,7 @@ export default function Category() {
                         setCurrent(current - 1);
                         position.value = -Dimensions.get("window").width;
                         position.value = withDelay(25, withTiming(0, { duration: 300, easing: Easing.ease }))
+                        setTriggerAd((triggerAd) => triggerAd + 1);
                     }, 250)
 
                 } else {
@@ -86,10 +94,20 @@ export default function Category() {
         transform: [{ translateX: position.value }],
     }));
 
+    // Gestión de anuncios
+    useEffect(() => {
+        if (triggerAd === 2) {
+            adsHandlerRef.current.showIntersitialAd();
+            setTriggerAd(0)
+        }
+    }, [triggerAd])
+
 
     return (
         <View style={styles.container}>
             <Stack.Screen options={{ headerShown: false }} />
+            <AdsHandler ref={adsHandlerRef} adType={[0]} />
+            <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
             <GestureDetector gesture={tap}>
                 {image ?
                     <Animated.View style={[animatedStyle, styles.wrapper]}>
