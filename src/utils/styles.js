@@ -21,11 +21,12 @@ export const ui = {
         fontFamily: "Changa",
         color: "black",
         fontSize: 32,
+        textAlign: "center",
     },
     h3: {
         fontFamily: "Changa",
         color: "black",
-        fontSize: 25,
+        fontSize: 20,
     },
     button: {
         paddingVertical: 12,

@@ -1,53 +1,52 @@
-import { FlatList, StyleSheet, Text, TouchableOpacity, View, Image } from "react-native";
-import { Stack, router } from "expo-router";
+import { FlatList, StyleSheet, Text, View, StatusBar } from "react-native";
+import { Link, Stack } from "expo-router";
 import { ui } from "../src/utils/styles";
 import LottieView from 'lottie-react-native';
-import { useEffect, useState } from "react";
-import { fetchCategories } from "../src/utils/supabase";
-import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
+import { useMemo, useState } from "react";
+import { BannerAd, BannerAdSize, TestIds } from "react-native-google-mobile-ads";
 import { bannerId } from "../src/utils/constants";
+import { categories_raw } from "../src/utils/data";
+import { Pressable } from "react-native";
+import { Image } from "expo-image";
+import Animated from "react-native-reanimated";
 
 export default function List() {
 
     const [categories, setCategories] = useState([])
-
-    useEffect(() => {
-        if (categories.length < 1) {
-            fetchCategories(setCategories)
-        }
-    }, [categories])
-
+    useMemo(() => setCategories(categories_raw), [categories]);
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} sharedTransitionTag="first">
             <Stack.Screen options={{ headerShown: false }} />
-            <Text style={ui.h2}>Comienza a dar forma tus propias cejas</Text>
-            <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+            <View style={styles.title}>
+                <Text style={ui.h2}>Comienza a dar forma tus propias cejas</Text>
+            </View>
+            <BannerAd unitId={TestIds.BANNER} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
             {
                 categories.length > 0 ?
                     <View style={styles.list}>
                         <FlatList
                             data={categories}
                             numColumns={1}
+                            initialNumToRender={4}
                             renderItem={({ item, i }) => {
                                 return (
-                                    <TouchableOpacity key={i} style={styles.itemWrapper} onPress={() => router.push({ pathname: "/category", params: { id: item.id, bucket: item.bucket, name: item.name } })}>
-                                        <View style={styles.item}>
-                                            <Image
-                                                style={styles.image}
-                                                source={{ uri: item.image }}
-                                                resizeMode="contain"
-                                            />
-                                            <View style={styles.info}>
-                                                <Text style={ui.h3}>{item.name}</Text>
-                                                <Text style={ui.text}>{item.steps} recursos</Text>
-                                            </View>
-                                        </View>
-                                    </TouchableOpacity>
+                                    <Animated.View key={i} style={styles.itemWrapper} sharedTransitionTag="second">
+                                        <Link asChild href={{ pathname: "/category", params: { name: item.name, stepsLength: item.steps } }}>
+                                            <Pressable>
+                                                <View style={styles.item}>
+                                                    <Image transition={1000} style={styles.image} source={item.image} placeholder={"LZLruhayXot8W?fQs*jt~8fQ=?js"} />
+                                                    <View style={styles.info}>
+                                                        <Text style={ui.h3}>{item.name}</Text>
+                                                        <Text style={ui.text}>{item.steps} recursos</Text>
+                                                    </View>
+                                                </View>
+                                            </Pressable>
+                                        </Link>
+                                    </Animated.View>
                                 )
                             }}
                         />
-
                     </View>
                     :
                     <LottieView source={require("../assets/lottie/loading-animation.json")} loop={true} autoPlay={true} />
@@ -59,42 +58,58 @@ export default function List() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        gap: 32,
-        width: "90%",
-        alignSelf: "center",
+        gap: 24,
         alignItems: "center",
-        paddingTop: 48,
-        paddingBottom: 16,
         backgroundColor: "white",
+        paddingTop: StatusBar.currentHeight + 24,
+        paddingHorizontal: 20,
+        backgroundColor: "#fff",
+    },
+
+    title: {
+        flexDirection: "row",
+        alignItems: "center",
+        gap: 6,
+    },
+
+    lottie: {
+        width: "100%",
+        aspectRatio: 1
     },
 
     list: {
+        flex: 1,
         width: "100%",
     },
 
-    itemWrapper: { 
-        padding: 8,
+    itemWrapper: {
+        width: "100%",
+        flex: 1,
         marginVertical: 16,
+        elevation: 10,
+        shadowColor: "#5193F1",
         borderWidth: 2,
         borderColor: "#ff85b8",
         borderRadius: 16,
+        backgroundColor: "white",
     },
 
     item: {
+        width: "100%",
+        flex: 1,
         flexDirection: "row",
         alignItems: "center",
-        gap: 16,
+        gap: 12,
     },
 
     image: {
         aspectRatio: 1,
-        width: 150,
-        borderWidth: 3,
+        width: 120,
+        borderTopLeftRadius: 14,
+        borderBottomLeftRadius: 14
     },
 
     info: {
-        width: "100%",
-        flex: 1,
-        gap: 8,
+        gap: 5,
     }
 })

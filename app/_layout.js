@@ -1,4 +1,4 @@
-import { Slot, SplashScreen } from "expo-router";
+import { SplashScreen, Stack } from "expo-router";
 import { View, StatusBar, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
@@ -26,7 +26,7 @@ export default function Layout() {
     return (
         <View style={styles.container}>
             <GestureHandlerRootView style={styles.wrapper}>
-                <Slot />
+                <Stack screenOptions={{ headerStyle: { backgroundColor: '#fff', color: "#fff" }, }} />
             </GestureHandlerRootView>
             <StatusBar style="light" />
         </View >
@@ -35,9 +35,14 @@ export default function Layout() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        position: "relative",
+        justifyContent: "center",
+        backgroundColor: "white",
     },
     wrapper: {
         flex: 1,
+        width: "100%",
+        alignSelf: "center",
+        justifyContent: "center",
     },
-
 })

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Text, View } from "react-native";
-import { useAnimatedStyle } from "react-native-reanimated";
+import { FadeInDown, useAnimatedStyle } from "react-native-reanimated";
 import Animated from 'react-native-reanimated';
 import { ui } from "../utils/styles";
 import { Link } from "expo-router";
@@ -8,15 +8,15 @@ import { Link } from "expo-router";
 export default function Progress({ current, qty }) {
 
     const animatedStyle = useAnimatedStyle(() => ({
-        width: `${((current + 1) * 100) / qty}%`
+        width: `${(current * 100) / qty}%`
     }));
 
     return (
-        <View style={{ marginBottom: 8, gap: 3 }}>
+        <View style={{ gap: 3, marginHorizontal: 16 }} entering={FadeInDown}>
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
-                <Text style={[ui.text, { fontWeight: "bold" }]}>{current + 1} / {qty} </Text>
+                <Text style={[ui.text, { fontWeight: "bold", marginLeft: 3 }]}>{current} / {qty} </Text>
                 {
-                    (current + 1) === (qty) ?
+                    current === qty ?
                         <Link href="/list"><Text style={[ui.text, { fontSize: 16, fontWeight: "bold" }]}>¡Listo! Toca aquí para ver otra guía</Text></Link>
                         :
                         <Text style={[ui.text, { fontSize: 16 }]}>Desliza para ver el siguiente recurso</Text>

@@ -6,9 +6,9 @@ import { ui } from '../src/utils/styles';
 export default function App() {
 
     return (
-        <View style={styles.container}>
+        <View style={styles.container} sharedTransitionTag="first">
             <Stack.Screen options={{ headerShown: false }} />
-            <Video resizeMode='cover' repeat source={{ uri: "https://xejcpoignjppkukvjzqt.supabase.co/storage/v1/object/public/resources/background.mp4" }} style={styles.lottie} />
+            <Video resizeMode='cover' repeat source={{ uri: "https://mollydigital.manu-scholz.com/wp-content/uploads/2023/10/como-hacer-mis-cejas-background.mp4" }} style={styles.lottie} />
 
 
             <View style={styles.shadow}>
