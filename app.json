@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/logo-cejas.png",
         "backgroundColor": "#FFECF4"
       },
-      "versionCode": 3,
+      "versionCode": 4,
       "package": "com.paulaymanu113.comohacercejas"
     },
     "web": {
@@ -36,7 +36,7 @@
     }
   },
   "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-3963345159052388~5304191437",
-    "ios_app_id": "ca-app-pub-3963345159052388~5304191437"
+    "android_app_id": "ca-app-pub-3738413299329691~4726584588",
+    "ios_app_id": "ca-app-pub-3738413299329691~4726584588"
 }
 }
