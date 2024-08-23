@@ -23,7 +23,7 @@
                 "foregroundImage": "./assets/logo-cejas.png",
                 "backgroundColor": "#FFECF4"
             },
-            "versionCode": 4,
+            "versionCode": 5,
             "package": "com.paulaymanu113.comohacercejas"
         },
         "web": {
