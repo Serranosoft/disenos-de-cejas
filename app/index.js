@@ -20,6 +20,9 @@ export default function List() {
             <Stack.Screen options={{ headerShown: false }} />
             <View style={styles.title}>
                 <Text style={ui.h2}>Comienza a dar forma tus propias cejas</Text>
+                <Link href="/simulator2">
+                    <Text>qwe</Text>
+                </Link>
             </View>
             <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
             {
