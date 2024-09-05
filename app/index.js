@@ -20,7 +20,7 @@ export default function List() {
             <Stack.Screen options={{ headerShown: false }} />
             <View style={styles.title}>
                 <Text style={ui.h2}>Comienza a dar forma tus propias cejas</Text>
-                <Link href="/simulator2">
+                <Link href="/simulator">
                     <Text>qwe</Text>
                 </Link>
             </View>
