@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Button } from 'react-native';
+import { View, Button, TouchableOpacity, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImageSimulator from '../src/components/image-simulator';
 
@@ -31,7 +31,7 @@ export default function Simulator2() {
 
     return (
         <GestureHandlerRootView style={{ flex: 1 }}>
-            <View style={{ flex: 1 }} >
+            <View style={{ flex: 1 }}>
                 {images.map((img) => (
                     <ImageSimulator
                         key={img.id}
@@ -42,8 +42,19 @@ export default function Simulator2() {
                         onPress={() => setImageSelected(img.id)}
                     />
                 ))}
-                <View onTouchStart={() => setImageSelected(1000)} style={{ width: "100%", position: "absolute", height: "100%", backgroundColor: "rgba(10,10,10,0.3)", zIndex: 1}}></View>
-                <Button title="Add Image" onPress={addImage} />
+                <TouchableOpacity
+                    onPress={addImage}
+                    style={{ 
+                        width: 125, 
+                        height: 125, 
+                        borderRadius: 100, 
+                        padding: 8, 
+                        backgroundColor: "#fff", 
+                        zIndex: 11
+                    }}>
+                    <Text>Añadir imagen</Text>
+                </TouchableOpacity>
+                <View onTouchStart={() => setImageSelected(1000)} style={{ width: "100%", position: "absolute", height: "100%", backgroundColor: "rgba(10,10,10,0.3)", zIndex: 1 }}></View>
             </View>
         </GestureHandlerRootView>
     );
