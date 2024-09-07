@@ -3,13 +3,13 @@ import { ui } from "../utils/styles";
 import * as ImagePicker from 'expo-image-picker';
 import { Stack } from "expo-router";
 import Header from "./header/header";
+import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
+import { bannerId } from "../utils/constants";
 export default function SimulatorHome({ setBackground }) {
 
     async function setGallery() {
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            // allowsEditing: true,
-            // aspect: [4, 3],
             quality: 1,
         });
 
@@ -18,8 +18,6 @@ export default function SimulatorHome({ setBackground }) {
 
     async function setCamera() {
         const result = await ImagePicker.launchCameraAsync({
-            // allowsEditing: true,
-            // aspect: [4, 3],
             quality: 1,
         });
 
@@ -31,8 +29,8 @@ export default function SimulatorHome({ setBackground }) {
         <>
             <Stack.Screen options={{ header: () => <Header /> }} />
             <View style={styles.container}>
+                <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
                 <Text style={ui.h2}>Hazte una foto o elige una de la galería</Text>
-
                 <View style={styles.wrapper}>
                     <TouchableOpacity style={styles.action} onPress={setCamera}>
                         <Image source={require("../../assets/camera.png")} style={styles.image} />
@@ -75,9 +73,8 @@ export default function SimulatorHome({ setBackground }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: "100%",
-        backgroundColor: "#fff",
-        padding: 20
+        paddingHorizontal: 20,
+        backgroundColor: "#fff"
     },
 
     wrapper: {

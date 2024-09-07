@@ -6,6 +6,8 @@ import ViewShot from 'react-native-view-shot';
 import HeaderSimulator from './header/header-simulator';
 import { Stack } from 'expo-router';
 import * as MediaLibrary from 'expo-media-library';
+import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
+import { bannerId } from '../utils/constants';
 
 const ALBUM_NAME = "Diseño de cejas";
 const PERMISSION_DENIED = "No tengo permisos para acceder a la galería del dispositivo";
@@ -34,6 +36,13 @@ export default function SimulatorPlayground({ background }) {
         };
         setImages([...images, newImage]);
     };
+
+    /** Encargado de eliminar una imagen de la colección */
+    function removeImage() {
+        let imagesAux = [...images];
+        const removed = imagesAux.filter(image => image.id !== imageSelected);
+        setImages(removed);
+    }
 
     /** Encargado de solicitar los permisos necesarios para almacenar el resultado en la galería del dispositivo */
     async function requestPermissions() {
@@ -85,10 +94,11 @@ export default function SimulatorPlayground({ background }) {
     return (
         <>
             <Stack.Screen options={{ header: () => <HeaderSimulator {...{ save }} /> }} />
+            <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
 
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <ViewShot ref={shotRef} options={{ fileName: "cejas", format: "jpg", quality: 1 }} style={{ flex: 1 }}>
-                    <ImageBackground source={{ uri: background }} style={{ flex: 1 }} resizeMode="stretch">
+                    <ImageBackground source={{ uri: background }} style={{ flex: 1 }} resizeMode="contain">
                         <View style={{ flex: 1 }}>
                             {images.map((img) => (
                                 <ImageSimulator
@@ -96,6 +106,7 @@ export default function SimulatorPlayground({ background }) {
                                     id={img.id}
                                     uri={img.uri}
                                     imageSelected={imageSelected}
+                                    removeImage={removeImage}
                                     onPress={() => setImageSelected(img.id)}
                                 />
                             ))}

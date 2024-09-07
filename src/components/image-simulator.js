@@ -3,7 +3,7 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, runOnJS, withSpring } from 'react-native-reanimated';
 
-export default function ImageSimulator({ imageSelected, onPress, uri, id }) {
+export default function ImageSimulator({ imageSelected, onPress, uri, id, removeImage }) {
 
     const translateX = useSharedValue(0);
     const translateY = useSharedValue(0);
@@ -51,7 +51,8 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id }) {
                 const newSize = clamp(startSize.value * event.scale, 25, 200);
                 imageSize.value = withSpring(newSize);
             }
-        });
+        })
+
 
     const drag = Gesture.Pan()
         .onStart((event) => {
@@ -65,14 +66,22 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id }) {
                 translateX.value = startX.value + event.translationX;
                 translateY.value = startY.value + event.translationY;
             }
-        });
+        })
 
     return (
         <GestureDetector gesture={Gesture.Simultaneous(pinch, drag)}>
             <Animated.View
                 onTouchStart={onPress}
-                style={[ animatedStyle, styles.container, { borderWidth: imageSelected === id ? 3 : 0 }]}
+                style={[animatedStyle, styles.container]}
             >
+                {
+                    imageSelected === id &&
+                    <View style={styles.borderWrapper}>
+                        <TouchableOpacity onPress={removeImage} style={styles.remove}>
+                            <Image source={require("../../assets/remove.png")} style={{ width: 25, height: 25 }} />
+                        </TouchableOpacity>
+                    </View>
+                }
                 <Animated.Image source={{ uri }} style={widthStyle} />
             </Animated.View>
         </GestureDetector>
@@ -82,12 +91,36 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id }) {
 
 const styles = StyleSheet.create({
     container: {
-        borderColor: "red",
+        outlineColor: "red",
         borderRadius: 8,
-        padding: 32,
+        padding: 24,
         position: "absolute",
         top: 50,
         left: 50,
         zIndex: 2
-    }
+    },
+
+    remove: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: 35,
+        height: 35,
+        position: "absolute",
+        top: -24,
+        left: -16,
+        borderRadius: 100,
+        backgroundColor: "red",
+    },
+    
+    borderWrapper: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        borderColor: "red",
+        borderStyle: "solid",
+        borderWidth: 4,
+        zIndex: 1,
+    },
 })

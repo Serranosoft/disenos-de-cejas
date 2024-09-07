@@ -15,7 +15,7 @@ export default function Hero() {
             <Text style={ui.h2}>Comienza a dar forma tus propias cejas</Text>
             <TouchableOpacity onPress={navigate} style={styles.button}>
                 <Image source={require("../../../assets/eyebrows.png")} style={styles.image} />
-                <Text style={ui.h3}>Simulador de cejas</Text>
+                <Text style={ui.h3}>¡Pruébalas!</Text>
             </TouchableOpacity>
         </View>
     )
@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
         borderColor: "#B3B3F1",
         borderRadius: 100,
         alignItems: "center",
+        justifyContent: "center",
         gap: 16
     },
 
