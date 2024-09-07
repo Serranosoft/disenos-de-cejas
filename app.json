@@ -38,10 +38,16 @@
             "expo-font",
             "expo-router",
             [
-                "react-native-google-mobile-ads", 
+                "react-native-google-mobile-ads",
                 {
                     "androidAppId": "ca-app-pub-3738413299329691~4726584588",
                     "iosAppId": "ca-app-pub-3738413299329691~4726584588"
+                }
+            ],
+            [
+                "expo-image-picker",
+                {
+                    "photosPermission": "The app accesses your photos to let you share them with your friends."
                 }
             ]
         ]
