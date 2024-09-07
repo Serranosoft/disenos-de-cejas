@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
         flex: 1,
         position: "relative",
         justifyContent: "center",
-        backgroundColor: "white",
+        backgroundColor: "#CEC2FF",
+        paddingTop: StatusBar.currentHeight,
     },
     wrapper: {
         flex: 1,

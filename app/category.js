@@ -8,6 +8,7 @@ import Card from "../src/components/Card";
 import { ui } from "../src/utils/styles";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 import { bannerId } from "../src/utils/constants";
+import Header from "../src/layout/header/header";
 
 export default function Category() {
 
@@ -38,7 +39,7 @@ export default function Category() {
 
     return (
         <View sharedTransitionTag="second" style={styles.container}>
-            <Stack.Screen options={{ headerShown: false }} />
+            <Stack.Screen options={{ header: () => <Header /> }} />
             <AdsHandler ref={adsHandlerRef} adType={[0]} />
             <View style={styles.wrapper}>
                 <Text style={[ui.h2, {marginBottom: 8}]}>{name}</Text>
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width: "100%",
         backgroundColor: "#fff",
-        paddingTop: StatusBar.currentHeight + 16,
+        paddingTop: 16,
         justifyContent: "center",
     },
 

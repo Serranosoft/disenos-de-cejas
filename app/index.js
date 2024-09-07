@@ -9,52 +9,24 @@ import { categories_raw } from "../src/utils/data";
 import { Pressable } from "react-native";
 import { Image } from "expo-image";
 import Animated from "react-native-reanimated";
+import Hero from "../src/layout/home/hero";
+import Resources from "../src/layout/home/resources";
+import Header from "../src/layout/header/header";
 
 export default function List() {
 
-    const [categories, setCategories] = useState([])
-    useMemo(() => setCategories(categories_raw), [categories]);
+
 
     return (
-        <View style={styles.container} sharedTransitionTag="first">
-            <Stack.Screen options={{ headerShown: false }} />
-            <View style={styles.title}>
-                <Text style={ui.h2}>Comienza a dar forma tus propias cejas</Text>
-                <Link href="/simulator">
-                    <Text>qwe</Text>
-                </Link>
+        <>
+            <Stack.Screen options={{ header: () => <Header /> }} />
+            <View style={styles.container} sharedTransitionTag="first">
+                <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                <Hero />
+                <Resources />
             </View>
-            <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
-            {
-                categories.length > 0 ?
-                    <View style={styles.list}>
-                        <FlatList
-                            data={categories}
-                            numColumns={1}
-                            initialNumToRender={4}
-                            renderItem={({ item, i }) => {
-                                return (
-                                    <Animated.View key={i} style={styles.itemWrapper} sharedTransitionTag="second">
-                                        <Link asChild href={{ pathname: "/category", params: { name: item.name, stepsLength: item.steps } }}>
-                                            <Pressable>
-                                                <View style={styles.item}>
-                                                    <Image transition={1000} style={styles.image} source={item.image} placeholder={"LZLruhayXot8W?fQs*jt~8fQ=?js"} />
-                                                    <View style={styles.info}>
-                                                        <Text style={ui.h3}>{item.name}</Text>
-                                                        <Text style={ui.text}>{item.steps} recursos</Text>
-                                                    </View>
-                                                </View>
-                                            </Pressable>
-                                        </Link>
-                                    </Animated.View>
-                                )
-                            }}
-                        />
-                    </View>
-                    :
-                    <LottieView source={require("../assets/lottie/loading-animation.json")} loop={true} autoPlay={true} />
-            }
-        </View>
+        </>
+
     )
 }
 
@@ -64,7 +36,7 @@ const styles = StyleSheet.create({
         gap: 24,
         alignItems: "center",
         backgroundColor: "white",
-        paddingTop: StatusBar.currentHeight + 24,
+        // paddingTop: StatusBar.currentHeight + 8,
         paddingHorizontal: 20,
         backgroundColor: "#fff",
     },

@@ -9,9 +9,9 @@ export const ui = {
         fontSize: 20,
     },
     muted: {
-        fontFamily: "SourceSansRegular",
+        fontFamily: "Changa",
         color: "black",
-        fontSize: 15,
+        fontSize: 14,
     },
     h1: {
         fontSize: 60,
@@ -27,6 +27,11 @@ export const ui = {
         fontFamily: "Changa",
         color: "black",
         fontSize: 20,
+    },
+    h4: {
+        fontFamily: "Slabo",
+        color: "black",
+        fontSize: 22,
     },
     button: {
         paddingVertical: 12,
