@@ -12,7 +12,6 @@ export default function Simulator() {
 
     return (
         <View style={{ flex: 1 }}>
-            <Stack.Screen options={{ header: () => <Header /> }} />
             {
                 background ?
                     <SimulatorPlayground {...{ background }} />

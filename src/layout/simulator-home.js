@@ -1,6 +1,8 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { ui } from "../utils/styles";
 import * as ImagePicker from 'expo-image-picker';
+import { Stack } from "expo-router";
+import Header from "./header/header";
 export default function SimulatorHome({ setBackground }) {
 
     async function setGallery() {
@@ -10,7 +12,7 @@ export default function SimulatorHome({ setBackground }) {
             // aspect: [4, 3],
             quality: 1,
         });
-    
+
         if (!result.canceled) setBackground(result.assets[0].uri);
     }
 
@@ -26,44 +28,47 @@ export default function SimulatorHome({ setBackground }) {
 
 
     return (
-        <View style={styles.container}>
-            <Text style={ui.h2}>Hazte una foto o elige una de la galería</Text>
+        <>
+            <Stack.Screen options={{ header: () => <Header /> }} />
+            <View style={styles.container}>
+                <Text style={ui.h2}>Hazte una foto o elige una de la galería</Text>
 
-            <View style={styles.wrapper}>
-                <TouchableOpacity style={styles.action} onPress={setCamera}>
-                    <Image source={require("../../assets/camera.png")} style={styles.image} />
-                    <Text style={[styles.textWrap, ui.h3]}>Hacer una foto con la cámara</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.action} onPress={setGallery}>
-                    <Image source={require("../../assets/gallery.png")} style={styles.image} />
-                    <Text style={[styles.textWrap, ui.h3]}>Elegir una imagen de la galería</Text>
-                </TouchableOpacity>
-            </View>
+                <View style={styles.wrapper}>
+                    <TouchableOpacity style={styles.action} onPress={setCamera}>
+                        <Image source={require("../../assets/camera.png")} style={styles.image} />
+                        <Text style={[styles.textWrap, ui.h3]}>Hacer una foto con la cámara</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.action} onPress={setGallery}>
+                        <Image source={require("../../assets/gallery.png")} style={styles.image} />
+                        <Text style={[styles.textWrap, ui.h3]}>Elegir una imagen de la galería</Text>
+                    </TouchableOpacity>
+                </View>
 
-            <View style={styles.wrapper}>
-                <View style={styles.stepRow}>
-                    <View style={styles.description}>
-                        <Text style={ui.h2}>1.</Text>
-                        <Text style={ui.text}>Elige las cejas que quieres probar</Text>
+                <View style={styles.wrapper}>
+                    <View style={styles.stepRow}>
+                        <View style={styles.description}>
+                            <Text style={ui.h2}>1.</Text>
+                            <Text style={ui.text}>Elige las cejas que quieres probar</Text>
+                        </View>
+                        <Image source={require("../../assets/tap.png")} style={styles.icon} />
                     </View>
-                    <Image source={require("../../assets/tap.png")} style={styles.icon} />
-                </View>
-                <View style={styles.stepRow}>
-                    <View style={styles.description}>
-                        <Text style={ui.h2}>2.</Text>
-                        <Text style={ui.text}>Coloca las cejas en la posición deseada</Text>
+                    <View style={styles.stepRow}>
+                        <View style={styles.description}>
+                            <Text style={ui.h2}>2.</Text>
+                            <Text style={ui.text}>Coloca las cejas en la posición deseada</Text>
+                        </View>
+                        <Image source={require("../../assets/move.png")} style={styles.icon} />
                     </View>
-                    <Image source={require("../../assets/move.png")} style={styles.icon} />
-                </View>
-                <View style={styles.stepRow}>
-                    <View style={styles.description}>
-                        <Text style={ui.h2}>3.</Text>
-                        <Text style={ui.text}>Haz las cejas mas grandes o pequeñas</Text>
+                    <View style={styles.stepRow}>
+                        <View style={styles.description}>
+                            <Text style={ui.h2}>3.</Text>
+                            <Text style={ui.text}>Haz las cejas mas grandes o pequeñas</Text>
+                        </View>
+                        <Image source={require("../../assets/pinch.png")} style={styles.icon} />
                     </View>
-                    <Image source={require("../../assets/pinch.png")} style={styles.icon} />
                 </View>
             </View>
-        </View>
+        </>
     )
 }
 
