@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, Button, TouchableOpacity, Text, StyleSheet, ImageBackground, ScrollView, Image, ToastAndroid } from 'react-native';
+import { View, TouchableOpacity, Text, StyleSheet, ImageBackground, ScrollView, Image, ToastAndroid } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImageSimulator from '../components/image-simulator';
 import ViewShot from 'react-native-view-shot';
@@ -12,6 +12,12 @@ import { bannerId } from '../utils/constants';
 const ALBUM_NAME = "Diseño de cejas";
 const PERMISSION_DENIED = "No tengo permisos para acceder a la galería del dispositivo";
 const SAVED_IMAGE = "Imagen guardada en tu galería en el albúm «Diseños de cejas»";
+
+const eyebrows = [
+    require("../../assets/eyebrow-1.png"),
+    require("../../assets/eyebrow-2.png"),
+    require("../../assets/eyebrow-3.png"),
+]
 
 export default function SimulatorPlayground({ background }) {
     /** Conjunto de imagenes que se encuentra sobre el background */
@@ -29,12 +35,13 @@ export default function SimulatorPlayground({ background }) {
     }, [result])
 
     /** Encargado de añadir una nueva imagen en la colección */
-    function addImage() {
+    function addImage(uri) {
         const newImage = {
             id: images.length,
-            uri: 'https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg',
+            uri: uri,
         };
         setImages([...images, newImage]);
+        setImageSelected(newImage.id);
     };
 
     /** Encargado de eliminar una imagen de la colección */
@@ -120,72 +127,18 @@ export default function SimulatorPlayground({ background }) {
                         horizontal={true}
                         contentContainerStyle={{ gap: 16 }}
                     >
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={addImage}>
-                            <Image
-                                source={{ uri: "https://debocado.net/wp-content/uploads/2023/06/receta-tortilla-patatas-airfryer.jpg" }}
-                                style={styles.option}
-                            />
-                        </TouchableOpacity>
+                        {
+                            eyebrows.map((eyebrow) => (
+                                <TouchableOpacity onPress={() => addImage(eyebrow)} style={styles.option}>
+                                    <Image
+                                        source={eyebrow}
+                                        style={styles.image}
+                                        resizeMode="contain"
+                                    />
+                                </TouchableOpacity>
+                            ))
+                        }
+                             
                     </ScrollView>
                 </View>
             </GestureHandlerRootView>
@@ -211,7 +164,7 @@ const styles = StyleSheet.create({
         bottom: 16,
         left: 0,
         width: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
+        backgroundColor: "rgba(255, 255, 255, 0.65)",
         padding: 8,
     },
 
@@ -220,8 +173,15 @@ const styles = StyleSheet.create({
     },
 
     option: {
-        width: 75,
-        height: 75,
+        paddingHorizontal: 8,
+        borderWidth: 2,
+        borderColor: "#B3B3F1",
+        borderRadius: 8
+    },
+
+    image: {
+        width: 80,
+        height: 80,
     },
 
     button: {
@@ -230,7 +190,7 @@ const styles = StyleSheet.create({
         padding: 8,
         backgroundColor: "#CEC2FF",
         borderWidth: 5,
-        borderColor: "#B3B3F1",
+        borderColor: "#CEC2FF",
         borderRadius: 100,
         zIndex: 11
     }
