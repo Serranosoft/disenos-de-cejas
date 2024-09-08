@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
-import Animated, { useSharedValue, useAnimatedStyle, runOnJS, withSpring } from 'react-native-reanimated';
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
 export default function ImageSimulator({ imageSelected, onPress, uri, id, removeImage }) {
 
@@ -13,6 +13,8 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
     const offsetY = useSharedValue(0);
     const imageSize = useSharedValue(100); // Tamaño inicial de la imagen
     const startSize = useSharedValue(100); // Tamaño inicial de la imagen al comenzar el pinch
+    const rotation = useSharedValue(0);
+    const savedRotation = useSharedValue(1);
 
     // Definir la función clamp como worklet
     const clamp = (value, min, max) => {
@@ -24,7 +26,8 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
         return {
             transform: [
                 { translateX: translateX.value },
-                { translateY: translateY.value }
+                { translateY: translateY.value },
+                { rotateZ: `${(rotation.value / Math.PI) * 180}deg` }
             ],
         };
     });
@@ -48,7 +51,7 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
         })
         .onUpdate((event) => {
             if (imageSelected === id) {
-                const newSize = clamp(startSize.value * event.scale, 25, 200);
+                const newSize = startSize.value * event.scale;
                 imageSize.value = withSpring(newSize);
             }
         })
@@ -68,8 +71,16 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
             }
         })
 
+    const rotate = Gesture.Rotation()
+        .onUpdate((e) => {
+            rotation.value = savedRotation.value + e.rotation * 0.5;
+        })
+        .onEnd(() => {
+            savedRotation.value = rotation.value;
+        });
+
     return (
-        <GestureDetector gesture={Gesture.Simultaneous(pinch, drag)}>
+        <GestureDetector gesture={Gesture.Simultaneous(pinch, rotate, drag)}>
             <Animated.View
                 onTouchStart={onPress}
                 style={[animatedStyle, styles.container]}
@@ -82,7 +93,7 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
                         </TouchableOpacity>
                     </View>
                 }
-                <Animated.Image source={{ uri }} style={widthStyle} />
+                <Animated.Image source={uri} style={widthStyle} resizeMode="contain" />
             </Animated.View>
         </GestureDetector>
 
@@ -91,7 +102,6 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
 
 const styles = StyleSheet.create({
     container: {
-        outlineColor: "red",
         borderRadius: 8,
         padding: 24,
         position: "absolute",
@@ -109,18 +119,19 @@ const styles = StyleSheet.create({
         top: -24,
         left: -16,
         borderRadius: 100,
-        backgroundColor: "red",
+        backgroundColor: "#CEC2FF",
     },
-    
+
     borderWrapper: {
         position: 'absolute',
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
-        borderColor: "red",
+        borderColor: "#CEC2FF",
         borderStyle: "solid",
         borderWidth: 4,
+        borderRadius: 8,
         zIndex: 1,
     },
 })
