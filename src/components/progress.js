@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { Text, View } from "react-native";
 import { FadeInDown, useAnimatedStyle } from "react-native-reanimated";
 import Animated from 'react-native-reanimated';

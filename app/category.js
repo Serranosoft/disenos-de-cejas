@@ -1,4 +1,4 @@
-import { StatusBar, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { Stack, useLocalSearchParams } from "expo-router";
 import { createRef, useEffect, useState } from "react";
 import Progress from "../src/components/progress";

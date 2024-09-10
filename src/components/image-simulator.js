@@ -16,12 +16,6 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
     const rotation = useSharedValue(0);
     const savedRotation = useSharedValue(1);
 
-    // Definir la función clamp como worklet
-    const clamp = (value, min, max) => {
-        'worklet';
-        return Math.max(min, Math.min(value, max));
-    };
-
     const animatedStyle = useAnimatedStyle(() => {
         return {
             transform: [

@@ -1,10 +1,9 @@
-import { FlatList, StyleSheet, Text, View, StatusBar, TouchableOpacity } from "react-native";
-import { Link, Stack } from "expo-router";
+import { FlatList, StyleSheet, Text, View, TouchableOpacity } from "react-native";
+import { Link } from "expo-router";
 import { ui } from "../../../src/utils/styles";
 import LottieView from 'lottie-react-native';
 import { useMemo, useState } from "react";
 import { categories_raw } from "../../../src/utils/data";
-import { Pressable } from "react-native";
 import { Image } from "expo-image";
 import Animated from "react-native-reanimated";
 

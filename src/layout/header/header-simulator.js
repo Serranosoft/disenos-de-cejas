@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { Link, usePathname } from "expo-router";
+import { Link } from "expo-router";
 import { ui } from "../../utils/styles";
 
 export default function HeaderSimulator({ save }) {

@@ -1,22 +1,12 @@
-import { FlatList, StyleSheet, Text, View, StatusBar } from "react-native";
-import { Link, Stack } from "expo-router";
-import { ui } from "../src/utils/styles";
-import LottieView from 'lottie-react-native';
-import { useMemo, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Stack } from "expo-router";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 import { bannerId } from "../src/utils/constants";
-import { categories_raw } from "../src/utils/data";
-import { Pressable } from "react-native";
-import { Image } from "expo-image";
-import Animated from "react-native-reanimated";
 import Hero from "../src/layout/home/hero";
 import Resources from "../src/layout/home/resources";
 import Header from "../src/layout/header/header";
 
 export default function List() {
-
-
-
     return (
         <>
             <Stack.Screen options={{ header: () => <Header /> }} />
@@ -36,7 +26,6 @@ const styles = StyleSheet.create({
         gap: 24,
         alignItems: "center",
         backgroundColor: "white",
-        // paddingTop: StatusBar.currentHeight + 8,
         paddingHorizontal: 20,
         backgroundColor: "#fff",
     },
