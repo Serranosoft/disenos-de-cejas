@@ -14,9 +14,32 @@ const PERMISSION_DENIED = "No tengo permisos para acceder a la galería del disp
 const SAVED_IMAGE = "Imagen guardada en tu galería en el albúm «Diseños de cejas»";
 
 const eyebrows = [
-    require("../../assets/eyebrow-1.png"),
-    require("../../assets/eyebrow-2.png"),
-    require("../../assets/eyebrow-3.png"),
+    require("../../assets/eyebrows/1.png"),
+    require("../../assets/eyebrows/2.png"),
+    require("../../assets/eyebrows/3.png"),
+    require("../../assets/eyebrows/4.png"),
+    require("../../assets/eyebrows/5.png"),
+    require("../../assets/eyebrows/6.png"),
+    require("../../assets/eyebrows/7.png"),
+    require("../../assets/eyebrows/8.png"),
+    require("../../assets/eyebrows/9.png"),
+    require("../../assets/eyebrows/10.png"),
+    require("../../assets/eyebrows/11.png"),
+    require("../../assets/eyebrows/12.png"),
+    require("../../assets/eyebrows/13.png"),
+    require("../../assets/eyebrows/14.png"),
+    require("../../assets/eyebrows/15.png"),
+    require("../../assets/eyebrows/16.png"),
+    require("../../assets/eyebrows/17.png"),
+    require("../../assets/eyebrows/18.png"),
+    require("../../assets/eyebrows/19.png"),
+    require("../../assets/eyebrows/20.png"),
+    require("../../assets/eyebrows/21.png"),
+    require("../../assets/eyebrows/22.png"),
+    require("../../assets/eyebrows/23.png"),
+    require("../../assets/eyebrows/24.png"),
+    require("../../assets/eyebrows/25.png"),
+    require("../../assets/eyebrows/26.png"),
 ]
 
 export default function SimulatorPlayground({ background }) {
