@@ -21,6 +21,8 @@ export default function Category() {
     const [triggerAd, setTriggerAd] = useState(0);
     const adsHandlerRef = createRef();
 
+    const [showOpenAd, setShowOpenAd] = useState(true);
+
     useEffect(() => {
         if (images.length < 1) {
             // Imagenes
@@ -40,7 +42,7 @@ export default function Category() {
     return (
         <View sharedTransitionTag="second" style={styles.container}>
             <Stack.Screen options={{ header: () => <Header /> }} />
-            <AdsHandler ref={adsHandlerRef} adType={[0]} />
+            <AdsHandler ref={adsHandlerRef} showOpenAd={showOpenAd} setShowOpenAd={setShowOpenAd} />
             <View style={styles.wrapper}>
                 <Text style={[ui.h2, {marginBottom: 8}]}>{name}</Text>
                 <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
