@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { View, TouchableOpacity, Text, StyleSheet, ImageBackground, ScrollView, Image, ToastAndroid } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, Image, ToastAndroid, Platform, Alert } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImageSimulator from '../components/image-simulator';
 import ViewShot from 'react-native-view-shot';
@@ -81,11 +81,18 @@ export default function SimulatorPlayground({ background }) {
             if (status === "granted") {
                 downloadImage();
             } else {
-                ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+                if (Platform.OS === "android") {
+                    ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+                } else {
+                    Alert.alert(PERMISSION_DENIED);
+                }
             }
         } catch (error) {
-            console.log(error);
-            ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+            if (Platform.OS === "android") {
+                ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+            } else {
+                Alert.alert(PERMISSION_DENIED);
+            }
         }
     }
 
@@ -101,11 +108,17 @@ export default function SimulatorPlayground({ background }) {
             } else {
                 await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
             }
-
-            ToastAndroid.showWithGravityAndOffset(SAVED_IMAGE, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+            if (Platform.OS === "android") {
+                ToastAndroid.showWithGravityAndOffset(SAVED_IMAGE, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+            } else {
+                Alert.alert(SAVED_IMAGE);
+            }
         } catch (error) {
-            console.log(error);
-            ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+            if (Platform.OS === "android") {
+                ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
+            } else {
+                Alert.alert(PERMISSION_DENIED);
+            }
         }
     }
 

@@ -3,6 +3,7 @@ import { View, StatusBar, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useEffect } from "react";
 import { useFonts } from "expo-font";
+import Constants from "expo-constants";
 
 SplashScreen.preventAutoHideAsync();
 export default function Layout() {
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
         position: "relative",
         justifyContent: "center",
         backgroundColor: "#CEC2FF",
-        paddingTop: StatusBar.currentHeight,
+        paddingTop: Constants.statusBarHeight,
     },
     wrapper: {
         flex: 1,
