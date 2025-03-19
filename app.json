@@ -16,8 +16,12 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.paulaymanu113.comohacercejas"
+      "supportsTablet": false,
+      "bundleIdentifier": "com.paulaymanu113.comohacercejas",
+      "buildNumber": "3",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -25,7 +29,10 @@
         "backgroundColor": "#FFECF4"
       },
       "versionCode": 7,
-      "package": "com.paulaymanu113.comohacercejas"
+      "package": "com.paulaymanu113.comohacercejas",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

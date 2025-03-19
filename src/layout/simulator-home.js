@@ -34,11 +34,11 @@ export default function SimulatorHome({ setBackground }) {
                 <View style={styles.wrapper}>
                     <TouchableOpacity style={styles.action} onPress={setCamera}>
                         <Image source={require("../../assets/camera.png")} style={styles.image} />
-                        <Text style={[styles.textWrap, ui.h3]}>Hacer una foto con la cámara</Text>
+                        <Text style={[styles.textWrap, ui.h3]}>Abrir cámara</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.action} onPress={setGallery}>
                         <Image source={require("../../assets/gallery.png")} style={styles.image} />
-                        <Text style={[styles.textWrap, ui.h3]}>Elegir una imagen de la galería</Text>
+                        <Text style={[styles.textWrap, ui.h3]}>Abrir galería</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -88,8 +88,8 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        width: 64,
-        height: 64,
+        width: 56,
+        height: 56,
     },
 
     action: {
