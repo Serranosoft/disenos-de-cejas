@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
     wrapper: {
         marginTop: 48,
         gap: 32,
+        alignItems: "center",
+        justifyContent: "center",
     },
 
     textWrap: {
@@ -93,7 +95,6 @@ const styles = StyleSheet.create({
     },
 
     action: {
-        width: "100%",
         flexDirection: "row",
         alignItems: "center",
         paddingHorizontal: 24,
