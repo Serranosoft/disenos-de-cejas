@@ -38,8 +38,7 @@ const styles = StyleSheet.create({
         flex: 1,
         position: "relative",
         justifyContent: "center",
-        backgroundColor: "#CEC2FF",
-        paddingTop: Constants.statusBarHeight,
+        backgroundColor: "#fff",
     },
     wrapper: {
         flex: 1,
