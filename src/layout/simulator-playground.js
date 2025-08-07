@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, Image, ToastAndroid, Platform, Alert } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImageSimulator from '../components/image-simulator';
@@ -8,6 +8,7 @@ import { Stack } from 'expo-router';
 import * as MediaLibrary from 'expo-media-library';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 import { bannerId } from '../utils/constants';
+import { Context } from '../utils/context';
 
 const ALBUM_NAME = "Diseño de cejas";
 const PERMISSION_DENIED = "No tengo permisos para acceder a la galería del dispositivo";
@@ -43,6 +44,9 @@ const eyebrows = [
 ]
 
 export default function SimulatorPlayground({ background }) {
+
+    const { adsLoaded } = useContext(Context);
+
     /** Conjunto de imagenes que se encuentra sobre el background */
     const [images, setImages] = useState([]);
     /** Imagen del conjunto seleccionada */
@@ -137,7 +141,7 @@ export default function SimulatorPlayground({ background }) {
     return (
         <>
             <Stack.Screen options={{ header: () => <HeaderSimulator {...{ save }} /> }} />
-            <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+            {adsLoaded && <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />}
 
             <GestureHandlerRootView style={{ flex: 1 }}>
                 <ViewShot ref={shotRef} options={{ fileName: "cejas", format: "jpg", quality: 1 }} style={{ flex: 1 }}>
@@ -174,7 +178,7 @@ export default function SimulatorPlayground({ background }) {
                                 </TouchableOpacity>
                             ))
                         }
-                             
+
                     </ScrollView>
                 </View>
             </GestureHandlerRootView>

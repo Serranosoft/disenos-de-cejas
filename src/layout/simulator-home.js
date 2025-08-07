@@ -5,7 +5,11 @@ import { Stack } from "expo-router";
 import Header from "./header/header";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 import { bannerId } from "../utils/constants";
+import { useContext } from "react";
+import { Context } from "../utils/context";
 export default function SimulatorHome({ setBackground }) {
+
+    const { adsLoaded } = useContext(Context);
 
     async function setGallery() {
         const result = await ImagePicker.launchImageLibraryAsync({
@@ -29,7 +33,7 @@ export default function SimulatorHome({ setBackground }) {
         <>
             <Stack.Screen options={{ header: () => <Header /> }} />
             <View style={styles.container}>
-                <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                {adsLoaded && <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />}
                 <Text style={ui.h2}>Hazte una foto o elige una de la galería</Text>
                 <View style={styles.wrapper}>
                     <TouchableOpacity style={styles.action} onPress={setCamera}>

@@ -5,13 +5,19 @@ import { bannerId } from "../src/utils/constants";
 import Hero from "../src/layout/home/hero";
 import Resources from "../src/layout/home/resources";
 import Header from "../src/layout/header/header";
+import { useContext } from "react";
+import { Context } from "../src/utils/context";
 
 export default function List() {
+
+    const { adsLoaded } = useContext(Context);
+
+
     return (
         <>
             <Stack.Screen options={{ header: () => <Header /> }} />
             <View style={styles.container} sharedTransitionTag="first">
-                <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                {adsLoaded && <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />}
                 <Hero />
                 <Resources />
             </View>
