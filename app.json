@@ -1,6 +1,6 @@
 {
     "expo": {
-        "name": "Diseña tu mirada paso a paso",
+        "name": "Diseño de cejas",
         "slug": "como-hacer-cejas",
         "version": "1.0.0",
         "orientation": "portrait",
@@ -29,7 +29,7 @@
                 "foregroundImage": "./assets/logo-cejas.png",
                 "backgroundColor": "#FFECF4"
             },
-            "versionCode": 8,
+            "versionCode": 9,
             "package": "com.paulaymanu113.comohacercejas",
             "permissions": [
                 "android.permission.RECORD_AUDIO"

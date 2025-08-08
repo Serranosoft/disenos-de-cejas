@@ -106,7 +106,8 @@ const AdsHandler = forwardRef((props, ref) => {
             openAdRef.current.load();
             openAdLoadedRef.current = false;
         });
-        appOpenAd.addAdEventListener(AdEventType.ERROR, () => {
+        appOpenAd.addAdEventListener(AdEventType.ERROR, (error) => {
+            console.log(error);
         });
         AppState.addEventListener("change", nextAppState => {
             setAppStateChanged(nextAppState);

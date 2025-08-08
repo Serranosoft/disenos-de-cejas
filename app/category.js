@@ -14,7 +14,7 @@ export default function Category() {
 
     const params = useLocalSearchParams();
     const { name, stepsLength } = params;
-    const { adsLoaded } = useContext(Context);
+    const { adsLoaded, setAdTrigger } = useContext(Context);
 
     const [images, setImages] = useState([]);
     const [current, setCurrent] = useState(0);
@@ -33,7 +33,7 @@ export default function Category() {
             <View style={styles.wrapper}>
                 <Text style={[ui.h2, {marginBottom: 8}]}>{name}</Text>
                 { adsLoaded && <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} /> }
-                <Card name={name} images={images} setTriggerAd={setTriggerAd} setCurrent={setCurrent} current={current} stepsLength={stepsLength} />
+                <Card name={name} images={images} setAdTrigger={setAdTrigger} setCurrent={setCurrent} current={current} stepsLength={stepsLength} />
                 <Progress current={(current+1)} qty={stepsLength} />
             </View>
         </View>

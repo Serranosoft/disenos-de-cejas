@@ -1,10 +1,11 @@
 import { SplashScreen, Stack } from "expo-router";
 import { View, StatusBar, StyleSheet } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { useEffect } from "react";
+import { createRef, useEffect, useState } from "react";
 import { useFonts } from "expo-font";
 import AdsHandler from "../src/components/AdsHandler";
 import * as StoreReview from 'expo-store-review';
+import { Context } from "../src/utils/context";
 
 SplashScreen.preventAutoHideAsync();
 export default function Layout() {
@@ -55,12 +56,12 @@ export default function Layout() {
     return (
         <View style={styles.container}>
             <AdsHandler ref={adsHandlerRef} showOpenAd={showOpenAd} adsLoaded={adsLoaded} setAdsLoaded={setAdsLoaded} setShowOpenAd={setShowOpenAd} />
-            <DataContext.Provider value={{ adsLoaded: adsLoaded, setAdTrigger: setAdTrigger, setShowOpenAd: setShowOpenAd }}>
+            <Context.Provider value={{ adsLoaded: adsLoaded, setAdTrigger: setAdTrigger, setShowOpenAd: setShowOpenAd }}>
                 <GestureHandlerRootView style={styles.wrapper}>
                     <Stack screenOptions={{ headerStyle: { backgroundColor: '#fff', color: "#fff" }, }} />
                 </GestureHandlerRootView>
-            </DataContext.Provider>
-            <StatusBar style="light" />
+            </Context.Provider>
+            <StatusBar style="light" backgroundColor={"#CEC2FF"} />
         </View >
     )
 }

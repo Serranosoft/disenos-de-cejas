@@ -9,9 +9,12 @@ import { useContext } from "react";
 import { Context } from "../utils/context";
 export default function SimulatorHome({ setBackground }) {
 
-    const { adsLoaded } = useContext(Context);
+    const { adsLoaded, setShowOpenAd } = useContext(Context);
 
     async function setGallery() {
+        
+        setShowOpenAd(false);
+
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.Images,
             quality: 1,
@@ -21,11 +24,18 @@ export default function SimulatorHome({ setBackground }) {
     }
 
     async function setCamera() {
+                
+        setShowOpenAd(false);
+        
         const result = await ImagePicker.launchCameraAsync({
             quality: 1,
         });
-
-        if (!result.canceled) setBackground(result.assets[0].uri);
+        
+        if (!result.canceled) {
+            setBackground(result.assets[0].uri);
+        } else {
+            setShowOpenAd(false);
+        } 
     }
 
 

@@ -6,7 +6,7 @@ import { View } from "react-native";
 import Loading from "./loading";
 import { useState } from "react";
 
-export default function Card({ setTriggerAd, images, setCurrent, current, stepsLength }) {
+export default function Card({ setAdTrigger, images, setCurrent, current, stepsLength }) {
 
     const position = useSharedValue(0);
 
@@ -26,7 +26,7 @@ export default function Card({ setTriggerAd, images, setCurrent, current, stepsL
                         setCurrent((current) => current + 1);
                         position.value = Dimensions.get("window").width;
                         position.value = withDelay(25, withTiming(0, { duration: 300, easing: Easing.ease }))
-                        setTriggerAd((triggerAd) => triggerAd + 1);
+                        setAdTrigger((triggerAd) => triggerAd + 1);
                     }, 250)
                 } else {
                     // Cargar una vista con el final   
@@ -42,7 +42,7 @@ export default function Card({ setTriggerAd, images, setCurrent, current, stepsL
                         setCurrent((current) => current - 1);
                         position.value = -Dimensions.get("window").width;
                         position.value = withDelay(25, withTiming(0, { duration: 300, easing: Easing.ease }))
-                        setTriggerAd((triggerAd) => triggerAd + 1);
+                        setAdTrigger((triggerAd) => triggerAd + 1);
                     }, 250)
 
                 } else {
