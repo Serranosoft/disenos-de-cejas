@@ -29,7 +29,7 @@
                 "foregroundImage": "./assets/logo-cejas.png",
                 "backgroundColor": "#FFECF4"
             },
-            "versionCode": 9,
+            "versionCode": 10,
             "package": "com.paulaymanu113.comohacercejas",
             "permissions": [
                 "android.permission.RECORD_AUDIO"
