@@ -1,32 +1,27 @@
-import { SplashScreen, Stack } from "expo-router";
-import { View, StatusBar, StyleSheet } from "react-native";
+import { Stack } from "expo-router";
+import { View, StatusBar, StyleSheet, AppState } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createRef, useEffect, useState } from "react";
-import { useFonts } from "expo-font";
 import AdsHandler from "../src/components/AdsHandler";
 import * as StoreReview from 'expo-store-review';
 import { Context } from "../src/utils/context";
+import * as Notifications from 'expo-notifications';
+import { scheduleWeeklyNotification } from "../src/utils/notifications";
+import { userPreferences } from "../src/utils/userPreferences";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-SplashScreen.preventAutoHideAsync();
 export default function Layout() {
-
-    // Carga de fuentes.
-    const [fontsLoaded] = useFonts({
-        "Changa": require("../assets/fonts/Changa/Changa.ttf"),
-        "Slabo": require("../assets/fonts/Slabo/Slabo.ttf")
-    });
-
-    useEffect(() => {
-        if (fontsLoaded) {
-            SplashScreen.hideAsync();
-        }
-    }, [fontsLoaded])
 
     // Gestión de anuncios
     const [adsLoaded, setAdsLoaded] = useState(false);
     const [adTrigger, setAdTrigger] = useState(0);
     const [showOpenAd, setShowOpenAd] = useState(true);
     const adsHandlerRef = createRef();
+
+    useEffect(() => {
+        configureNotifications();
+        scheduleWeeklyNotification();
+    }, [])
 
     useEffect(() => {
         if (adTrigger > 2) {
@@ -43,14 +38,32 @@ export default function Layout() {
 
     }, [adTrigger])
 
-    async function askForReview() {
-        if (await StoreReview.hasAction()) {
-            StoreReview.requestReview()
+    async function configureNotifications() {
+        const { granted } = await Notifications.requestPermissionsAsync();
+        if (granted) {
+            await AsyncStorage.setItem(userPreferences.NOTIFICATION_PERMISSION, "true");
+            Notifications.setNotificationHandler({
+                handleNotification: async () => ({
+                    shouldShowBanner: true,
+                    shouldShowList: true,
+                    shouldPlaySound: false,
+                    shouldSetBadge: false,
+                }),
+            });
+        } else {
+            await AsyncStorage.setItem(userPreferences.NOTIFICATION_PERMISSION, "false");
         }
     }
 
-    if (!fontsLoaded) {
-        return null;
+    async function askForReview() {
+        try {
+            if (AppState.currentState !== "active") return;
+            if (await StoreReview.hasAction()) {
+                StoreReview.requestReview()
+            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     return (
