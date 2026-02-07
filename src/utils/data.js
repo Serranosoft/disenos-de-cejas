@@ -1,5 +1,20 @@
 export const categories_raw = [
     {
+        name: "Tutorial cejas laminadas",
+        steps: 5,
+        image: "https://mollydigital.manu-scholz.com/wp-content/uploads/2023/10/guia-tutorial-cejas-laminadas-1.jpg",
+    },
+    {
+        name: "Tutorial definir cejas",
+        steps: 5,
+        image: "https://mollydigital.manu-scholz.com/wp-content/uploads/2023/10/guia-tutorial-definir-cejas-1.jpg",
+    },
+    {
+        name: "Tutorial pintar cejas",
+        steps: 5,
+        image: "https://mollydigital.manu-scholz.com/wp-content/uploads/2023/10/guia-tutorial-pintar-cejas-1.jpg",
+    },
+    {
         name: "Tipos de cejas",
         steps: 4,
         image: "https://mollydigital.manu-scholz.com/wp-content/uploads/2023/10/guia-tipos-de-cejas-2.jpg",
