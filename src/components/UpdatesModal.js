@@ -3,7 +3,7 @@ import { Modal, View, Text, StyleSheet, TouchableOpacity, Pressable } from 'reac
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LangContext } from '../utils/langContext';
 
-const VERSION_MODAL = 'v2';
+const VERSION_MODAL = 'v1';
 
 export default function UpdatesModal() {
     const [visible, setVisible] = useState(false);
@@ -45,7 +45,6 @@ export default function UpdatesModal() {
                         <Text style={styles.listItem}>{language.t("_updateList3")}</Text>
                         <Text style={styles.listItem}>{language.t("_updateList4")}</Text>
                         <Text style={styles.listItem}>{language.t("_updateList5")}</Text>
-                        <Text style={styles.listItem}>{language.t("_updateList6")}</Text>
                     </View>
 
                     <TouchableOpacity style={styles.button} onPress={closeModal} activeOpacity={0.8}>
