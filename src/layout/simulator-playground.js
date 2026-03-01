@@ -1,149 +1,149 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import { View, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, Image, ToastAndroid, Platform, Alert } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, Image, ToastAndroid, Platform, Alert, Text } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import ImageSimulator from '../components/image-simulator';
 import ViewShot from 'react-native-view-shot';
-import HeaderSimulator from './header/header-simulator';
-import { Stack } from 'expo-router';
+import { Stack, useRouter } from 'expo-router';
 import * as MediaLibrary from 'expo-media-library';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 import { bannerId } from '../utils/constants';
 import { Context } from '../utils/context';
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import { LangContext } from "../utils/langContext";
 
 const ALBUM_NAME = "Diseño de cejas";
 const PERMISSION_DENIED = "No tengo permisos para acceder a la galería del dispositivo";
 const SAVED_IMAGE = "Imagen guardada en tu galería en el albúm «Diseños de cejas»";
 
+/* Assuming 'eyebrows' imports remain the same */
 const eyebrows = [
-    require("../../assets/eyebrows/1.png"),
-    require("../../assets/eyebrows/2.png"),
-    require("../../assets/eyebrows/3.png"),
-    require("../../assets/eyebrows/4.png"),
-    require("../../assets/eyebrows/5.png"),
-    require("../../assets/eyebrows/6.png"),
-    require("../../assets/eyebrows/7.png"),
-    require("../../assets/eyebrows/8.png"),
-    require("../../assets/eyebrows/9.png"),
-    require("../../assets/eyebrows/10.png"),
-    require("../../assets/eyebrows/11.png"),
-    require("../../assets/eyebrows/12.png"),
-    require("../../assets/eyebrows/13.png"),
-    require("../../assets/eyebrows/14.png"),
-    require("../../assets/eyebrows/15.png"),
-    require("../../assets/eyebrows/16.png"),
-    require("../../assets/eyebrows/17.png"),
-    require("../../assets/eyebrows/18.png"),
-    require("../../assets/eyebrows/19.png"),
-    require("../../assets/eyebrows/20.png"),
-    require("../../assets/eyebrows/21.png"),
-    require("../../assets/eyebrows/22.png"),
-    require("../../assets/eyebrows/23.png"),
-    require("../../assets/eyebrows/24.png"),
-    require("../../assets/eyebrows/25.png"),
-    require("../../assets/eyebrows/26.png"),
-]
+    require("../../assets/eyebrows/1.png"), require("../../assets/eyebrows/2.png"),
+    require("../../assets/eyebrows/3.png"), require("../../assets/eyebrows/4.png"),
+    require("../../assets/eyebrows/5.png"), require("../../assets/eyebrows/6.png"),
+    require("../../assets/eyebrows/7.png"), require("../../assets/eyebrows/8.png"),
+    require("../../assets/eyebrows/9.png"), require("../../assets/eyebrows/10.png"),
+    require("../../assets/eyebrows/11.png"), require("../../assets/eyebrows/12.png"),
+    require("../../assets/eyebrows/13.png"), require("../../assets/eyebrows/14.png"),
+    require("../../assets/eyebrows/15.png"), require("../../assets/eyebrows/16.png"),
+    require("../../assets/eyebrows/17.png"), require("../../assets/eyebrows/18.png"),
+    require("../../assets/eyebrows/19.png"), require("../../assets/eyebrows/20.png"),
+    require("../../assets/eyebrows/21.png"), require("../../assets/eyebrows/22.png"),
+    require("../../assets/eyebrows/23.png"), require("../../assets/eyebrows/24.png"),
+    require("../../assets/eyebrows/25.png"), require("../../assets/eyebrows/26.png"),
+];
 
-export default function SimulatorPlayground({ background }) {
-
+export default function SimulatorPlayground({ background, setBackground }) {
     const { adsLoaded } = useContext(Context);
+    const { language } = useContext(LangContext);
+    const t = (key, params) => language.t(key, params);
+    const router = useRouter();
 
-    /** Conjunto de imagenes que se encuentra sobre el background */
+    const PERMISSION_DENIED = t("simulator_permission_denied");
+    const SAVED_IMAGE = t("simulator_saved_image");
+
     const [images, setImages] = useState([]);
-    /** Imagen del conjunto seleccionada */
     const [imageSelected, setImageSelected] = useState(null);
-    /** Referencia del contenedor al que se le va a realizar una captura */
     const shotRef = useRef();
-    /** Imagen creada al realizar la captura */
     const [result, setResult] = useState(null);
 
-    /** Cuando tenga mi resultado terminado, pido permiso y descargo si el estado del permiso es garantizado */
     useEffect(() => {
         if (result) requestPermissions();
-    }, [result])
+    }, [result]);
 
-    /** Encargado de añadir una nueva imagen en la colección */
     function addImage(uri) {
-        const newImage = {
-            id: images.length,
-            uri: uri,
-        };
+        const uniqueId = Date.now() + Math.random().toString(36).substring(2, 9);
+        const newImage = { id: uniqueId, uri: uri };
         setImages([...images, newImage]);
         setImageSelected(newImage.id);
-    };
+    }
 
-    /** Encargado de eliminar una imagen de la colección */
     function removeImage() {
         let imagesAux = [...images];
         const removed = imagesAux.filter(image => image.id !== imageSelected);
         setImages(removed);
     }
 
-    /** Encargado de solicitar los permisos necesarios para almacenar el resultado en la galería del dispositivo */
     async function requestPermissions() {
         try {
             const { status } = await MediaLibrary.requestPermissionsAsync(false, ["photo"]);
             if (status === "granted") {
                 downloadImage();
             } else {
-                if (Platform.OS === "android") {
-                    ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
-                } else {
-                    Alert.alert(PERMISSION_DENIED);
-                }
+                showToast(PERMISSION_DENIED);
             }
         } catch (error) {
-            if (Platform.OS === "android") {
-                ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
-            } else {
-                Alert.alert(PERMISSION_DENIED);
-            }
+            showToast(PERMISSION_DENIED);
         }
     }
 
-    /** Encargado de crear el asset y almacenarlo en un albúm en concreto de la galería del dispositivo */
     async function downloadImage() {
         try {
-
             const asset = await MediaLibrary.createAssetAsync(result.download);
-
             let album = await MediaLibrary.getAlbumAsync(ALBUM_NAME);
             if (!album) {
                 album = await MediaLibrary.createAlbumAsync(ALBUM_NAME, asset, false);
             } else {
                 await MediaLibrary.addAssetsToAlbumAsync([asset], album, false);
             }
-            if (Platform.OS === "android") {
-                ToastAndroid.showWithGravityAndOffset(SAVED_IMAGE, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
-            } else {
-                Alert.alert(SAVED_IMAGE);
-            }
+            showToast(SAVED_IMAGE);
         } catch (error) {
-            if (Platform.OS === "android") {
-                ToastAndroid.showWithGravityAndOffset(PERMISSION_DENIED, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50);
-            } else {
-                Alert.alert(PERMISSION_DENIED);
-            }
+            showToast(PERMISSION_DENIED);
         }
+    }
+
+    function showToast(msg) {
+        Platform.OS === "android"
+            ? ToastAndroid.showWithGravityAndOffset(msg, ToastAndroid.LONG, ToastAndroid.BOTTOM, 25, 50)
+            : Alert.alert(msg);
     }
 
     function save() {
         setImageSelected(null);
-        shotRef.current.capture().then(uri => {
-            const index = uri.lastIndexOf("/") + 1;
-            const name = uri.substring(index, uri.length);
-            let result = {};
-            result.download = uri;
-            result.name = name;
-            setResult(result);
-        });
+        setTimeout(() => { // Gives time to remove the overlay wrapper of selected item
+            shotRef.current.capture().then(uri => {
+                const index = uri.lastIndexOf("/") + 1;
+                const name = uri.substring(index, uri.length);
+                let resultObj = { download: uri, name };
+                setResult(resultObj);
+            });
+        }, 150);
+    }
+
+    // Reset playground
+    function handleBack() {
+        setBackground(null);
     }
 
     return (
-        <>
-            <Stack.Screen options={{ header: () => <HeaderSimulator {...{ save }} /> }} />
-            {adsLoaded && <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />}
+        <View style={styles.container}>
+            <Stack.Screen options={{ headerShown: false }} />
 
-            <GestureHandlerRootView style={{ flex: 1 }}>
+            {/* Custom Header */}
+            <View style={styles.header}>
+                <TouchableOpacity
+                    onPress={handleBack}
+                    style={styles.iconBtn}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("simulator_accessibility_back")}
+                >
+                    <MaterialIcons name="arrow-back" size={24} color="#111827" />
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={save}
+                    style={styles.saveBtn}
+                    accessibilityRole="button"
+                    accessibilityLabel={t("simulator_accessibility_save")}
+                >
+                    <MaterialIcons name="file-download" size={20} color="#FFFFFF" />
+                    <Text style={styles.saveBtnText}>{t("simulator_save_button")}</Text>
+                </TouchableOpacity>
+            </View>
+            {adsLoaded && (
+                <View style={styles.adWrap}>
+                    <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                </View>
+            )}
+            <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
                 <ViewShot ref={shotRef} options={{ fileName: "cejas", format: "jpg", quality: 1 }} style={{ flex: 1 }}>
                     <ImageBackground source={{ uri: background }} style={{ flex: 1 }} resizeMode="contain">
                         <View style={{ flex: 1 }}>
@@ -161,77 +161,139 @@ export default function SimulatorPlayground({ background }) {
                         </View>
                     </ImageBackground>
                 </ViewShot>
-                <View style={styles.eyebrows}>
-                    <ScrollView
-                        style={styles.scroll}
-                        horizontal={true}
-                        contentContainerStyle={{ gap: 16 }}
-                    >
-                        {
-                            eyebrows.map((eyebrow) => (
-                                <TouchableOpacity onPress={() => addImage(eyebrow)} style={styles.option}>
-                                    <Image
-                                        source={eyebrow}
-                                        style={styles.image}
-                                        resizeMode="contain"
-                                    />
-                                </TouchableOpacity>
-                            ))
-                        }
 
-                    </ScrollView>
+                {/* Eyebrows Selection Tool */}
+                <View style={styles.bottomBarWrap}>
+
+
+                    <View style={styles.eyebrowsContainer}>
+                        <Text style={styles.eyebrowsTitle}>{t("simulator_gallery_title")}</Text>
+                        <ScrollView
+                            horizontal={true}
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={styles.scrollContent}
+                        >
+                            {eyebrows.map((eyebrow, index) => (
+                                <TouchableOpacity key={index} onPress={() => addImage(eyebrow)} style={styles.option}>
+                                    <View style={styles.optionInner}>
+                                        <Image
+                                            source={eyebrow}
+                                            style={styles.imageThumb}
+                                            resizeMode="contain"
+                                        />
+                                    </View>
+                                </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </View>
                 </View>
             </GestureHandlerRootView>
-        </>
-    )
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: '#FFFFFF'
     },
-
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingTop: 8,
+        paddingBottom: 12,
+        backgroundColor: "#FFFFFF",
+        borderBottomWidth: 1,
+        borderBottomColor: "#E5E7EB",
+    },
+    iconBtn: {
+        width: 44,
+        height: 44,
+        justifyContent: 'center',
+        alignItems: 'flex-start',
+    },
+    headerTitle: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        color: '#FFFFFF',
+    },
+    saveBtn: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: '#8B5CF6',
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+        borderRadius: 20,
+        gap: 6,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.2,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    saveBtnText: {
+        color: '#FFFFFF',
+        fontWeight: 'bold',
+        fontSize: 14,
+    },
     overlay: {
-        position: "absolute",
-        width: "100%",
-        height: "100%",
+        ...StyleSheet.absoluteFillObject,
         backgroundColor: "rgba(0,0,0,0)",
         zIndex: 1
     },
-
-    eyebrows: {
+    bottomBarWrap: {
         position: "absolute",
-        bottom: 16,
-        left: 0,
+        bottom: 0,
         width: "100%",
-        backgroundColor: "rgba(255, 255, 255, 0.65)",
-        padding: 8,
     },
-
-    scroll: {
-        flex: 1,
+    adWrap: {
+        alignItems: "center",
+        paddingBottom: 4
     },
-
+    eyebrowsContainer: {
+        backgroundColor: "rgba(255, 255, 255, 0.95)",
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24,
+        paddingTop: 16,
+        paddingBottom: 24,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: -4 },
+        shadowOpacity: 0.1,
+        shadowRadius: 8,
+        elevation: 10,
+    },
+    eyebrowsTitle: {
+        fontSize: 14,
+        fontWeight: "bold",
+        color: "#111827",
+        paddingHorizontal: 20,
+        marginBottom: 12,
+    },
+    scrollContent: {
+        paddingHorizontal: 16,
+        gap: 12,
+    },
     option: {
-        paddingHorizontal: 8,
-        borderWidth: 2,
-        borderColor: "#B3B3F1",
-        borderRadius: 8
-    },
-
-    image: {
         width: 80,
         height: 80,
+        borderRadius: 16,
+        backgroundColor: "#F8F9FE",
+        borderWidth: 1,
+        borderColor: "#E5E7EB",
+        justifyContent: "center",
+        alignItems: "center",
     },
-
-    button: {
-        width: 125,
-        height: 125,
+    optionInner: {
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
         padding: 8,
-        backgroundColor: "#CEC2FF",
-        borderWidth: 5,
-        borderColor: "#CEC2FF",
-        borderRadius: 100,
-        zIndex: 11
+    },
+    imageThumb: {
+        width: "100%",
+        height: "100%",
     }
-})
+});

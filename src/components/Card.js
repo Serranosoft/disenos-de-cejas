@@ -9,8 +9,9 @@ import { useState } from "react";
 export default function Card({ setAdTrigger, images, setCurrent, current, stepsLength }) {
 
     const position = useSharedValue(0);
+    const scale = useSharedValue(1);
 
-    const tap = Gesture.Pan().runOnJS(true)
+    const tap = Gesture.Pan().maxPointers(1).runOnJS(true)
         .activeOffsetX([60, 60])
         .onUpdate((e) => {
             position.value = e.translationX;
@@ -52,15 +53,29 @@ export default function Card({ setAdTrigger, images, setCurrent, current, stepsL
 
         })
 
+    const pinch = Gesture.Pinch()
+        .onUpdate((e) => {
+            scale.value = e.scale;
+        })
+        .onEnd(() => {
+            scale.value = withTiming(1, { duration: 300, easing: Easing.ease });
+        });
+
+    const composed = Gesture.Simultaneous(tap, pinch);
+
     const animatedStyle = useAnimatedStyle(() => ({
-        transform: [{ translateX: position.value }],
+        transform: [
+            { translateX: position.value },
+            { scale: scale.value }
+        ],
+        zIndex: scale.value > 1 ? 10 : 1,
     }));
 
     const [imageLoaded, setImageLoaded] = useState(false);
 
 
     return (
-        <GestureDetector gesture={tap}>
+        <GestureDetector gesture={composed}>
             {images ?
 
                 <Animated.View style={[animatedStyle, styles.wrapper]}>
@@ -74,7 +89,7 @@ export default function Card({ setAdTrigger, images, setCurrent, current, stepsL
                                 onLoadEnd={() => setImageLoaded(true)}
                             />
                         }
-                        { !imageLoaded && <Loading /> }
+                        {!imageLoaded && <Loading />}
                     </View>
                 </Animated.View>
                 :

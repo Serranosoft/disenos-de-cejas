@@ -1,5 +1,6 @@
 export const userPreferences = {
-    NOTIFICATION_PERMISSION: "notification_permission"
+    NOTIFICATION_PERMISSION: "notification_permission",
+    LANGUAGE: "language_preference"
 }
 
 

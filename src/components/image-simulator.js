@@ -3,7 +3,12 @@ import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
 
+import { useContext } from "react";
+import { LangContext } from "../utils/langContext";
+
 export default function ImageSimulator({ imageSelected, onPress, uri, id, removeImage }) {
+    const { language } = useContext(LangContext);
+    const t = (key, params) => language.t(key, params);
 
     const translateX = useSharedValue(0);
     const translateY = useSharedValue(0);
@@ -14,7 +19,8 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
     const imageSize = useSharedValue(100); // Tamaño inicial de la imagen
     const startSize = useSharedValue(100); // Tamaño inicial de la imagen al comenzar el pinch
     const rotation = useSharedValue(0);
-    const savedRotation = useSharedValue(1);
+    const savedRotation = useSharedValue(0);
+    const startRotation = useSharedValue(0);
 
     const animatedStyle = useAnimatedStyle(() => {
         return {
@@ -46,7 +52,7 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
         .onUpdate((event) => {
             if (imageSelected === id) {
                 const newSize = startSize.value * event.scale;
-                imageSize.value = withSpring(newSize);
+                imageSize.value = newSize;
             }
         })
 
@@ -66,11 +72,20 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
         })
 
     const rotate = Gesture.Rotation()
+        .onStart(() => {
+            if (imageSelected === id) {
+                startRotation.value = savedRotation.value;
+            }
+        })
         .onUpdate((e) => {
-            rotation.value = savedRotation.value + e.rotation * 0.5;
+            if (imageSelected === id) {
+                rotation.value = startRotation.value + e.rotation;
+            }
         })
         .onEnd(() => {
-            savedRotation.value = rotation.value;
+            if (imageSelected === id) {
+                savedRotation.value = rotation.value;
+            }
         });
 
     return (
@@ -78,11 +93,21 @@ export default function ImageSimulator({ imageSelected, onPress, uri, id, remove
             <Animated.View
                 onTouchStart={onPress}
                 style={[animatedStyle, styles.container]}
+                accessible={true}
+                accessibilityRole="image"
+                accessibilityLabel={t("simulator_accessibility_eyebrow")}
+                accessibilityHint={t("simulator_accessibility_hint")}
             >
                 {
                     imageSelected === id &&
                     <View style={styles.borderWrapper}>
-                        <TouchableOpacity onPress={removeImage} style={styles.remove}>
+                        <TouchableOpacity
+                            onPress={removeImage}
+                            style={styles.remove}
+                            accessible={true}
+                            accessibilityRole="button"
+                            accessibilityLabel={t("simulator_accessibility_remove")}
+                        >
                             <Image source={require("../../assets/remove.png")} style={{ width: 25, height: 25 }} />
                         </TouchableOpacity>
                     </View>
