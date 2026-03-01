@@ -2,7 +2,7 @@
     "expo": {
         "name": "Diseño de cejas",
         "slug": "como-hacer-cejas",
-        "version": "1.0.1",
+        "version": "2.0.0",
         "orientation": "portrait",
         "icon": "./assets/logo-cejas.png",
         "userInterfaceStyle": "light",
@@ -29,7 +29,7 @@
                 "foregroundImage": "./assets/logo-cejas.png",
                 "backgroundColor": "#FFECF4"
             },
-            "versionCode": 12,
+            "versionCode": 13,
             "package": "com.paulaymanu113.comohacercejas",
             "permissions": [
                 "android.permission.RECORD_AUDIO"
@@ -58,6 +58,12 @@
                 "expo-image-picker",
                 {
                     "photosPermission": "The app accesses your photos to let you share them with your friends."
+                }
+            ],
+            [
+                "expo-camera",
+                {
+                    "cameraPermission": "Permitir a la app usar la cámara para la función de simetría y diseño."
                 }
             ],
             [
@@ -108,7 +114,8 @@
                         ]
                     }
                 }
-            ]
+            ],
+            "expo-localization"
         ]
     }
 }
