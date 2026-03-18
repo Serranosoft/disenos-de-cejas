@@ -13,6 +13,7 @@ import { getLocales } from 'expo-localization';
 import { I18n } from 'i18n-js';
 import { translations } from '../src/i18n';
 import { LangContext } from '../src/utils/langContext';
+import { requestTrackingPermissionsAsync } from 'expo-tracking-transparency';
 
 export default function Layout() {
     // Idioma
@@ -58,7 +59,15 @@ export default function Layout() {
     useEffect(() => {
         configureNotifications();
         scheduleWeeklyNotification();
+        requestTracking();
     }, [])
+
+    async function requestTracking() {
+        const { status } = await requestTrackingPermissionsAsync();
+        if (status === 'granted') {
+            console.log('Rastreo permitido');
+        }
+    }
 
     useEffect(() => {
         if (adTrigger > 2) {

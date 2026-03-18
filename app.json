@@ -19,9 +19,12 @@
         "ios": {
             "supportsTablet": false,
             "bundleIdentifier": "com.paulaymanu113.comohacercejas",
-            "buildNumber": "4",
+            "buildNumber": "5",
             "infoPlist": {
-                "ITSAppUsesNonExemptEncryption": false
+                "ITSAppUsesNonExemptEncryption": false,
+                "NSPhotoLibraryUsageDescription": "La app accede a tus fotos para permitirte guardar tus diseños de cejas personalizados.",
+                "NSCameraUsageDescription": "Permitir a la app usar la cámara para la función de simetría y diseño de cejas.",
+                "NSUserTrackingUsageDescription": "Este identificador se utilizará para ofrecerte anuncios personalizados sobre diseño y estética de cejas según tus intereses."
             }
         },
         "android": {
@@ -51,7 +54,7 @@
                     "androidAppId": "ca-app-pub-3738413299329691~4726584588",
                     "iosAppId": "ca-app-pub-3738413299329691~4726584588",
                     "delayAppMeasurementInit": true,
-                    "userTrackingUsageDescription": "This identifier will be used to deliver personalized ads to you."
+                    "userTrackingUsageDescription": "Este identificador se utilizará para ofrecerte anuncios personalizados sobre diseño y estética de cejas según tus intereses."
                 }
             ],
             [
@@ -115,7 +118,8 @@
                     }
                 }
             ],
-            "expo-localization"
+            "expo-localization",
+            "expo-tracking-transparency"
         ]
     }
 }
