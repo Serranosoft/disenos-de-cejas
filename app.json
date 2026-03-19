@@ -19,7 +19,7 @@
         "ios": {
             "supportsTablet": false,
             "bundleIdentifier": "com.paulaymanu113.comohacercejas",
-            "buildNumber": "6",
+            "buildNumber": "7",
             "infoPlist": {
                 "ITSAppUsesNonExemptEncryption": false,
                 "NSPhotoLibraryUsageDescription": "La app accede a tus fotos para permitirte guardar tus diseños de cejas personalizados.",
