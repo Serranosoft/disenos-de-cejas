@@ -1,9 +1,9 @@
-import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View, ScrollView, Platform } from "react-native";
 import { ui } from "../utils/styles";
 import * as ImagePicker from 'expo-image-picker';
 import { Stack, useRouter } from "expo-router";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
-import { bannerId } from "../utils/constants";
+import { bannerId, bannerIdIos } from "../utils/constants";
 import { useContext } from "react";
 import { Context } from "../utils/context";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -50,7 +50,7 @@ export default function SimulatorHome({ setBackground }) {
 
             {adsLoaded && (
                 <View style={styles.adContainer}>
-                    <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                    <BannerAd unitId={Platform.OS === "ios" ? bannerIdIos : bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
                 </View>
             )}
 

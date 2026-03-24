@@ -1,11 +1,11 @@
-import { StyleSheet, View, Text, ScrollView, TouchableOpacity, FlatList } from "react-native";
+import { StyleSheet, View, Text, ScrollView, TouchableOpacity, FlatList, Platform } from "react-native";
 import { Link, useRouter } from "expo-router";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Image } from "expo-image";
 import { categories_raw } from "../../src/utils/data";
 import { useContext, useMemo, useState } from "react";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
-import { bannerId } from "../../src/utils/constants";
+import { bannerId, bannerIdIos } from "../../src/utils/constants";
 import { Context } from "../../src/utils/context";
 import { LangContext } from "../../src/utils/langContext";
 
@@ -85,7 +85,7 @@ export default function Tutorials() {
                     />
                     {adsLoaded && (
                         <View style={styles.adContainer}>
-                            <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                            <BannerAd unitId={Platform.OS === "ios" ? bannerIdIos : bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
                         </View>
                     )}
                 </View>

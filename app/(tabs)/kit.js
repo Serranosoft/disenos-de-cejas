@@ -3,7 +3,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useState, useEffect, useContext } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
-import { bannerId } from "../../src/utils/constants";
+import { bannerId, bannerIdIos } from "../../src/utils/constants";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
 import { Context } from "../../src/utils/context";
 import { LangContext } from "../../src/utils/langContext";
@@ -209,7 +209,7 @@ export default function Kit() {
                 </View>
                 {adsLoaded && (
                     <View style={styles.adContainer}>
-                        <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                        <BannerAd unitId={Platform.OS === "ios" ? bannerIdIos : bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
                     </View>
                 )}
 

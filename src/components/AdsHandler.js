@@ -1,8 +1,8 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import MobileAds, { AdsConsent, useInterstitialAd } from "react-native-google-mobile-ads";
-import { intersitialId, loadId } from "../utils/constants";
+import { intersitialId, intersitialIdIos, loadId, loadIdIos } from "../utils/constants";
 import { AdEventType, AppOpenAd } from "react-native-google-mobile-ads";
-import { AppState } from "react-native";
+import { AppState, Platform } from "react-native";
 
 const AdsHandler = forwardRef((props, ref) => {
 
@@ -10,7 +10,7 @@ const AdsHandler = forwardRef((props, ref) => {
         isLoaded: isLoadedIntersitial,
         isClosed: isClosedIntersitial,
         load: loadIntersitial,
-        show: showIntersitial } = useInterstitialAd(intersitialId);
+        show: showIntersitial } = useInterstitialAd(Platform.OS === "ios" ? intersitialIdIos : intersitialId);
 
     /* CONSENT */
     const isMobileAdsStartCalledRef = useRef(false);
@@ -95,7 +95,7 @@ const AdsHandler = forwardRef((props, ref) => {
     }
 
     function loadOpenAppAd() {
-        const appOpenAd = AppOpenAd.createForAdRequest(loadId);
+        const appOpenAd = AppOpenAd.createForAdRequest(Platform.OS === "ios" ? loadIdIos : loadId);
         appOpenAd.load();
 
         appOpenAd.addAdEventListener(AdEventType.LOADED, () => {

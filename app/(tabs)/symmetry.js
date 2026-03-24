@@ -1,11 +1,11 @@
-import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Image } from "react-native";
+import { StyleSheet, View, TouchableOpacity, Text, Dimensions, Image, Platform } from "react-native";
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import { Stack, useRouter } from "expo-router";
 import { useState, useRef, useEffect, useContext } from "react";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { useIsFocused } from '@react-navigation/native';
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
-import { bannerId } from "../../src/utils/constants";
+import { bannerId, bannerIdIos } from "../../src/utils/constants";
 import { Context } from "../../src/utils/context";
 import { LangContext } from "../../src/utils/langContext";
 
@@ -106,7 +106,7 @@ export default function Symmetry() {
             </View>
             {adsLoaded && (
                 <View style={styles.adContainer}>
-                    <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                    <BannerAd unitId={Platform.OS === "ios" ? bannerIdIos : bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
                 </View>
             )}
         </>

@@ -6,7 +6,7 @@ import ViewShot from 'react-native-view-shot';
 import { Stack, useRouter } from 'expo-router';
 import * as MediaLibrary from 'expo-media-library';
 import { BannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
-import { bannerId } from '../utils/constants';
+import { bannerId, bannerIdIos } from '../utils/constants';
 import { Context } from '../utils/context';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { LangContext } from "../utils/langContext";
@@ -140,7 +140,7 @@ export default function SimulatorPlayground({ background, setBackground }) {
             </View>
             {adsLoaded && (
                 <View style={styles.adWrap}>
-                    <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                    <BannerAd unitId={Platform.OS === "ios" ? bannerIdIos : bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
                 </View>
             )}
             <GestureHandlerRootView style={{ flex: 1, backgroundColor: '#FFFFFF' }}>

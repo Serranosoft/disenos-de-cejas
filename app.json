@@ -52,7 +52,7 @@
                 "react-native-google-mobile-ads",
                 {
                     "androidAppId": "ca-app-pub-3738413299329691~4726584588",
-                    "iosAppId": "ca-app-pub-3738413299329691~4726584588",
+                    "iosAppId": "ca-app-pub-3738413299329691~7471093883",
                     "delayAppMeasurementInit": true,
                     "userTrackingUsageDescription": "Este identificador se utilizará para ofrecerte anuncios personalizados sobre diseño y estética de cejas según tus intereses."
                 }

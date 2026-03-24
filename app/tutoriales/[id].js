@@ -8,7 +8,7 @@ import { fetchImages } from "../../src/utils/data";
 import Card from "../../src/components/Card";
 import { ui } from "../../src/utils/styles";
 import { BannerAd, BannerAdSize } from "react-native-google-mobile-ads";
-import { bannerId } from "../../src/utils/constants";
+import { bannerId, bannerIdIos } from "../../src/utils/constants";
 import { Context } from "../../src/utils/context";
 import { CameraView, useCameraPermissions } from 'expo-camera';
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -191,7 +191,7 @@ export default function TutorialDetail() {
                 {/* Ads if not in split mode, to avoid clutter */}
                 {!splitMode && adsLoaded && (
                     <View style={{ alignItems: 'center', marginVertical: 10 }}>
-                        <BannerAd unitId={bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
+                        <BannerAd unitId={Platform.OS === "ios" ? bannerIdIos : bannerId} size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} requestOptions={{}} />
                     </View>
                 )}
             </View>
