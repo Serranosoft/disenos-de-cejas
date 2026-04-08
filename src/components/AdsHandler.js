@@ -15,16 +15,20 @@ const AdsHandler = forwardRef((props, ref) => {
     /* CONSENT */
     const isMobileAdsStartCalledRef = useRef(false);
     useEffect(() => {
+        if (!props.readyToStart) return;
+
         const prepare = async () => {
-            const consentInfo = await AdsConsent.requestInfoUpdate();
+            await AdsConsent.requestInfoUpdate();
             AdsConsent.loadAndShowConsentFormIfRequired()
                 .then(startGoogleMobileAdsSDK)
-                .catch((error) => console.error('Consent gathering failed:', error));
-            startGoogleMobileAdsSDK();
+                .catch((error) => {
+                    console.error('Consent gathering failed:', error);
+                    startGoogleMobileAdsSDK();
+                });
         }
 
         prepare();
-    }, []);
+    }, [props.readyToStart]);
 
     async function startGoogleMobileAdsSDK() {
         const { canRequestAds } = await AdsConsent.getConsentInfo();

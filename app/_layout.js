@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import { View, StatusBar, StyleSheet, AppState } from "react-native";
+import { View, StatusBar, StyleSheet, AppState, Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { createRef, useEffect, useState, useMemo } from "react";
 import AdsHandler from "../src/components/AdsHandler";
@@ -56,10 +56,24 @@ export default function Layout() {
     const [showOpenAd, setShowOpenAd] = useState(true);
     const adsHandlerRef = createRef();
 
+    const [adsReadyToStart, setAdsReadyToStart] = useState(false);
+
     useEffect(() => {
-        configureNotifications();
-        scheduleWeeklyNotification();
-        requestTracking();
+        async function init() {
+            // Esperar un poco para asegurar que la UI principal del app esté montada y activa 
+            // antes de pedir los permisos (Apple / iOS 15+ a veces no muestra el popup si se pide instantáneamente)
+            if (Platform.OS === 'ios') {
+                await new Promise(resolve => setTimeout(resolve, 1500));
+            }
+            
+            await requestTracking();
+            await configureNotifications();
+            scheduleWeeklyNotification();
+            
+            setAdsReadyToStart(true);
+        }
+
+        init();
     }, [])
 
     async function requestTracking() {
@@ -114,7 +128,7 @@ export default function Layout() {
 
     return (
         <View style={styles.container}>
-            <AdsHandler ref={adsHandlerRef} showOpenAd={showOpenAd} adsLoaded={adsLoaded} setAdsLoaded={setAdsLoaded} setShowOpenAd={setShowOpenAd} />
+            <AdsHandler ref={adsHandlerRef} readyToStart={adsReadyToStart} showOpenAd={showOpenAd} adsLoaded={adsLoaded} setAdsLoaded={setAdsLoaded} setShowOpenAd={setShowOpenAd} />
             <LangContext.Provider value={langContextValue}>
                 <Context.Provider value={{ adsLoaded: adsLoaded, setAdTrigger: setAdTrigger, setShowOpenAd: setShowOpenAd }}>
                     <GestureHandlerRootView style={styles.wrapper}>
