@@ -2,7 +2,7 @@
     "expo": {
         "name": "Diseño de cejas",
         "slug": "como-hacer-cejas",
-        "version": "2.0.2",
+        "version": "2.0.3",
         "orientation": "portrait",
         "icon": "./assets/logo-cejas.png",
         "userInterfaceStyle": "light",
@@ -19,7 +19,7 @@
         "ios": {
             "supportsTablet": false,
             "bundleIdentifier": "com.paulaymanu113.comohacercejas",
-            "buildNumber": "9",
+            "buildNumber": "10",
             "infoPlist": {
                 "ITSAppUsesNonExemptEncryption": false,
                 "NSPhotoLibraryUsageDescription": "La app accede a tus fotos para permitirte guardar tus diseños de cejas personalizados.",
